@@ -20,10 +20,51 @@ models:
             description: "Final points for the away team"
           - name: GAME_FINAL_SCORER
             description: "Team to score the final point of the game"
+    - name: stg_silver_PLAYS
+      description: "NBA play by play information"
+      columns:
+          - name: GAME_ID
+            description: "Game ID. Relation to games table."
+            tests:
+                - unique
+                - not_null
+                - relationships:
+                    to: ref('stg_silver_GAMES')
+                    field: GAME_ID
+          - name: PLAYER_ID
+            description: "Home team"
+          - name: PLAY_PERIOD
+            description: "Away team"
+          - name: PLAY_TIME
+            description: "Final points for the home team"
+          - name: PLAY_TEAM_HOME_POINTS
+            description: "Final points for the away team"
+          - name: PLAY_TEAM_AWAY_POINTS
+            description: "Team to score the final point of the game"
+          - name: PLAY_TEAM
+            description: "Team to score the final point of the game"
+          - name: PLAY_TYPE
+            description: "Team to score the final point of the game"
+          - name: PLAY_SUBTYPE
+            description: "Final points for the away team"
+          - name: PLAY_OUTCOME
+            description: "Team to score the final point of the game"
+          - name: PLAY_COURT_X
+            description: "Team to score the final point of the game"
+          - name: PLAY_COURT_Y
+            description: "Team to score the final point of the game"
+    - name: stg_silver_PLAYERS
+      description: "NBA player information"
+      columns:
+          - name: PLAYER_ID
+            description: "PLAYER_ID. Relation to games table."
+            tests:
+                - not_null
+                - relationships:
+                    to: ref('stg_silver_GAMES')
+                    field: PLAYER_ID
 
-
-
-
+    
             
 
 
