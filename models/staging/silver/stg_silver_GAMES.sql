@@ -1,21 +1,50 @@
-with
-    source as (select * from {{ ref('stg_bronze__PLAY_BY_PLAY_BRONZE') }}),
+WITH first_points AS (
+    SELECT
+        game_id,
+        play_team,
+        play_team_home_points,
+        play_team_away_points,
+        LAG(play_team_home_points, 1, 0) OVER (PARTITION BY game_id ORDER BY play_team_home_points, play_team_away_points) AS prev_home_points,
+        LAG(play_team_away_points, 1, 0) OVER (PARTITION BY game_id ORDER BY play_team_home_points, play_team_away_points) AS prev_away_points
+    FROM
+        {{ ref('stg_bronze__PLAY_BY_PLAY_BRONZE') }}
+    WHERE
+        play_team IS NOT NULL
+),
+team_mapping AS (
+    SELECT DISTINCT
+        game_id,
+        FIRST_VALUE(play_team) OVER (PARTITION BY game_id ORDER BY play_team_home_points DESC) AS game_home_team,
+        FIRST_VALUE(play_team) OVER (PARTITION BY game_id ORDER BY play_team_away_points DESC) AS game_away_team
+    FROM
+        first_points
+    WHERE
+        play_team_home_points > prev_home_points OR play_team_away_points > prev_away_points
+),
+final_scores AS (
+    SELECT
+        game_id,
+        play_team_home_points,
+        play_team_away_points,
+        play_team,
+        ROW_NUMBER() OVER (PARTITION BY game_id ORDER BY play_team_home_points DESC, play_team_away_points DESC) AS row_num
+    FROM
+        {{ ref('stg_bronze__PLAY_BY_PLAY_BRONZE') }}
+)
 
-    renamed as (
+SELECT
+    fs.game_id,
+    tm.game_home_team,
+    tm.game_away_team,
+    MAX(fs.play_team_home_points) AS game_team_home_total_points,
+    MAX(fs.play_team_away_points) AS game_team_away_total_points,
+    fs.play_team AS game_final_scorer
+FROM
+    final_scores fs
+JOIN
+    team_mapping tm ON fs.game_id = tm.game_id
+WHERE
+    fs.row_num = 1
+GROUP BY
+    fs.game_id, tm.game_home_team, tm.game_away_team, fs.play_team
 
-        select
-            game_id,
-            play_team_home_points,
-            play_team_away_points,
-            play_team,
-            player_id,
-            game_season_year,
-        -- Create home and away team name as game_home/away_team by grouping by
-        -- game_id and finding unique values in play_team.
-        -- Clean up game_time
-        from source
-
-    )
-
-select *
-from renamed

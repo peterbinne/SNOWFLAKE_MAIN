@@ -1,0 +1,32 @@
+
+version: 2
+
+models:
+    - name: stg_silver_GAMES
+      description: "NBA game information"
+      columns:
+          - name: GAME_ID
+            description: "The primary key for this table, and the id for the game"
+            tests:
+                - unique
+                - not_null
+          - name: GAME_HOME_TEAM
+            description: "Home team"
+          - name: GAME_AWAY_TEAM
+            description: "Away team"
+          - name: GAME_TEAM_HOME_TOTAL_POINTS
+            description: "Final points for the home team"
+          - name: GAME_TEAM_AWAY_TOTAL_POINTS
+            description: "Final points for the away team"
+          - name: GAME_FINAL_SCORER
+            description: "Team to score the final point of the game"
+
+
+
+
+            
+
+
+
+
+
