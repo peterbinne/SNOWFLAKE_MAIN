@@ -18,7 +18,6 @@ with
 select
     source_playbyplay.player_id,
     source_players.player_position,
-    source_players.player_name,
     source_players.player_age,
     source_players.player_season_year,
     source_players_only.*

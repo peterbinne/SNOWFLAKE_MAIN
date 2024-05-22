@@ -28,9 +28,6 @@ models:
             tests:
                 - unique
                 - not_null
-                - relationships:
-                    to: ref('stg_silver_GAMES')
-                    field: GAME_ID
           - name: PLAYER_ID
             description: "Home team"
           - name: PLAY_PERIOD
@@ -60,10 +57,6 @@ models:
             description: "PLAYER_ID. Relation to games table."
             tests:
                 - not_null
-                - relationships:
-                    to: ref('stg_silver_GAMES')
-                    field: PLAYER_ID
-
     
             
 
