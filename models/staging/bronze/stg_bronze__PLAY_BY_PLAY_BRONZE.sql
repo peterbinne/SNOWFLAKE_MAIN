@@ -6,10 +6,10 @@ with
 
         select
             gameid as game_id,
-            period as game_period,
-            clock as game_time,
-            h_pts as team_home_points,
-            a_pts as team_away_points,
+            period as play_period,
+            clock as play_time,
+            h_pts as play_team_home_points,
+            a_pts as play_team_away_points,
             team as play_team,
             playerid as player_id,
             player as player_name,
@@ -21,9 +21,6 @@ with
             dist as play_distance,
             desc as play_description,
             season as game_season_year,
-        -- Create home and away team name as game_home/away_team by grouping by
-        -- game_id and finding unique values in play_team.
-        -- Clean up game_time
         from source
 
     )
