@@ -1,6 +1,8 @@
 with
 
-    source as (select * from {{ source("raw", "PLAYERS_RAW") }}),
+    source as (
+        select * from {{ source("raw", "PLAYERS_RAW") }}
+    ),
 
     renamed as (
 
