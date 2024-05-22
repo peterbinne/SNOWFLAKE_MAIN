@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: raw
+    database: MAIN  
+    schema: raw
+    tables:
+      - name: PLAY_BY_PLAY_RAW
+      - name: PLAYERS_RAW
+      - name: PLAYERS_SEASON_STATS_RAW
+  - name: DBT_PBINNE_BRONZE
+    database: MAIN
+    schema: DBT_PBINNE_BRONZE
+    tables:
+      - name: stg_bronze__PLAYERS_BRONZE
+      - name: stg_bronze__PLAYERS_SEASON_STATS_BRONZE
+      - name: stg_bronze__PLAY_BY_PLAY_BRONZE
