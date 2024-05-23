@@ -1,0 +1,10 @@
+version: 2
+
+sources:
+  - name: raw
+    database: MAIN  
+    schema: raw
+    tables:
+      - name: PLAY_BY_PLAY_RAW
+      - name: PLAYERS_RAW
+      - name: PLAYERS_SEASON_STATS_RAW
